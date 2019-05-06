@@ -219,18 +219,29 @@ namespace iTextSharp.text.pdf {
             password = ownerPassword;
             tokens = new PRTokeniser(new RandomAccessFileOrArray(isp));
             ReadPdf();
-        }
+		}
         
-        /**
+		/**
         * Reads and parses a PDF document.
         * @param isp the <CODE>InputStream</CODE> containing the document. The stream is read to the
         * end but is not closed
         * @throws IOException on error
         */
-        public PdfReader(Stream isp) : this(isp, null) {
+		public PdfReader(Stream isp) : this(isp, null) {
         }
-        
-        /**
+
+		/**
+        * Reads and parses a PDF document.
+        * @param isp the <CODE>InputStream</CODE> containing the document. The stream is read to the
+        * end but is not closed
+        * @throws IOException on error
+        */
+		public PdfReader(Stream isp, bool unethicalReading) : this(isp, null)
+		{
+			this.unethicalReading = unethicalReading;
+		}
+
+		/**
         * Reads and parses a pdf document. Contrary to the other constructors only the xref is read
         * into memory. The reader is said to be working in "partial" mode as only parts of the pdf
         * are read as needed. The pdf is left open but may be closed at any time with
@@ -238,8 +249,8 @@ namespace iTextSharp.text.pdf {
         * @param raf the document location
         * @param ownerPassword the password or <CODE>null</CODE> for no password
         * @throws IOException on error
-        */    
-        public PdfReader(RandomAccessFileOrArray raf, byte[] ownerPassword) {
+        */
+		public PdfReader(RandomAccessFileOrArray raf, byte[] ownerPassword) {
             password = ownerPassword;
             partial = true;
             tokens = new PRTokeniser(raf);
